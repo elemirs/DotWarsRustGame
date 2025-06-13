@@ -1,0 +1,10 @@
+[package]
+name = "dot_wars_save_system"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = "0.14"
+serde = { version = "1.0", features = ["derive"] }
+ron = "0.8"
+dot_wars_core = { path = "../core" }

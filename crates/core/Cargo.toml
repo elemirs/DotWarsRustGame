@@ -1,0 +1,9 @@
+[package]
+name = "dot_wars_core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = "0.14"
+serde = { version = "1.0", features = ["derive"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }

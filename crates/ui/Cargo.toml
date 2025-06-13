@@ -1,0 +1,12 @@
+[package]
+name = "dot_wars_ui"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = "0.14"
+bevy_egui = "0.31"  # Modern UI framework
+serde = { version = "1.0", features = ["derive"] }
+dot_wars_core = { path = "../core" }
+dot_wars_world = { path = "../world" }
+dot_wars_battle = { path = "../battle" }

@@ -1,0 +1,38 @@
+[workspace]
+members = [
+    "crates/core",
+    "crates/world",
+    "crates/battle",
+    "crates/strategy",
+    # "crates/ui",  # Geçici olarak devre dışı - versiyon uyumsuzluğu
+    "crates/ui_simple",  # Bevy built-in UI ile basit arayüz
+    "crates/graphics",
+    "crates/ai",
+    "crates/save_system",
+]
+
+[package]
+name = "dot_wars_rust"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = "0.14"
+# bevy_egui = "0.31"  # UI framework - geçici olarak devre dışı
+serde = { version = "1.0", features = ["derive"] }
+ron = "0.8"
+
+# Workspace dependencies
+dot_wars_core = { path = "crates/core" }
+dot_wars_world = { path = "crates/world" }
+dot_wars_battle = { path = "crates/battle" }
+dot_wars_strategy = { path = "crates/strategy" }
+# dot_wars_ui = { path = "crates/ui" }  # Geçici olarak devre dışı
+dot_wars_ui_simple = { path = "crates/ui_simple" }  # Basit UI sistemi
+dot_wars_graphics = { path = "crates/graphics" }
+dot_wars_ai = { path = "crates/ai" }
+dot_wars_save_system = { path = "crates/save_system" }
+
+[[bin]]
+name = "dot_wars"
+path = "src/main.rs"

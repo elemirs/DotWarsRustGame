@@ -1,0 +1,9 @@
+[package]
+name = "dot_wars_world"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = "0.14"
+serde = { version = "1.0", features = ["derive"] }
+dot_wars_core = { path = "../core" }
