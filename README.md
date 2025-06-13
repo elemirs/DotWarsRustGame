@@ -22,6 +22,30 @@ Rust ve Bevy ile geliştirilmiş 2D Grand Strategy + Real-time Battle Simulation
 
 ## 🏗️ Teknik Mimari
 
+### 🎯 **Hibrit CPU + GPU Sistem Yaklaşımı**
+DotWars, modern oyun geliştirme prensiplerini takip eden **hibrit bir CPU + GPU sistem** ile tasarlanmıştır:
+
+#### **🔧 CPU İşlemleri (Compute-Heavy)**
+- **Game Logic**: Core oyun mekaniği ve kurallar
+- **AI Systems**: Yapay zeka hesaplamaları ve karar verme
+- **Battle Calculations**: Savaş simülasyonları ve damage hesaplamaları
+- **Strategy Processing**: Grand strategy hesaplamaları ve optimizasyonlar
+- **World Simulation**: Province ve resource yönetimi
+- **Event Handling**: Input işleme ve game state yönetimi
+
+#### **🎨 GPU İşlemleri (Graphics-Heavy)**
+- **Rendering Pipeline**: Bevy + wgpu/Vulkan backend
+- **UI Rendering**: Modern kullanıcı arayüzü ve efektler
+- **Visual Effects**: Animasyonlar, ışıma efektleri, parçacık sistemleri
+- **Shader Processing**: Renk manipülasyonu ve görsel filtreler
+- **Batch Rendering**: Verimli sprite ve mesh rendering
+
+#### **⚡ Performans Avantajları**
+- **Paralel İşleme**: CPU ve GPU eş zamanlı çalışır
+- **Optimized Workload**: Her işlemci türü en iyi olduğu işi yapar
+- **Scalability**: Hem düşük hem yüksek end sistemlerde verimli
+- **Modern Architecture**: 2025 oyun geliştirme standartlarına uygun
+
 ### Modüler Crate Yapısı
 ```
 dot_wars_rust/
@@ -37,10 +61,12 @@ dot_wars_rust/
 ```
 
 ### Teknoloji Stack
-- **Game Engine**: Bevy 0.14
-- **Architecture**: Entity Component System (ECS)
-- **Language**: Rust 2021 Edition
-- **Serialization**: Serde + RON
+- **Game Engine**: Bevy 0.14 (GPU-accelerated ECS)
+- **Rendering Backend**: wgpu + Vulkan/DirectX/Metal
+- **Architecture**: Hibrit CPU + GPU Entity Component System (ECS)
+- **Language**: Rust 2021 Edition (memory-safe, high-performance)
+- **Serialization**: Serde + RON (human-readable data)
+- **Performance Philosophy**: CPU için compute, GPU için graphics
 
 ## 🚀 Geliştirme Roadmap
 
@@ -49,6 +75,8 @@ dot_wars_rust/
 - [x] Bevy integration
 - [x] Core data structures
 - [x] Basic ECS components
+- [x] **Hibrit CPU+GPU mimarisi kurulumu**
+- [x] **Modern UI sistemi (GPU-accelerated)**
 
 ### 🔄 Phase 2: World System (DEVAM EDIYOR)
 - [x] Province-based world map
@@ -205,3 +233,53 @@ Bu proje MIT lisansı altında lisanslanmıştır.
 ---
 
 **Not**: Bu proje aktif geliştirme aşamasındadır. Özellikler ve API değişebilir.
+
+---
+
+## 🧠 **Teknik Geliştirme Notları**
+
+### 📋 **Hibrit CPU + GPU Sistem Yaklaşımı**
+**(13 Haziran 2025 - Mimari Karar)**
+
+DotWars projesi, modern oyun geliştirme standartlarını takip eden **hibrit CPU + GPU sistem yaklaşımı** ile geliştirilmektedir:
+
+#### **🎯 Design Philosophy:**
+- **"Right Tool for Right Job"**: Her işlemci türü en iyi olduğu işi yapar
+- **Paralel Processing**: CPU ve GPU eş zamanlı çalışarak maximum performans
+- **Scalable Architecture**: Düşük ve yüksek end sistemlerde optimize edilmiş performans
+- **Future-Proof**: 2025+ oyun geliştirme trendlerine uygun
+
+#### **📊 İş Yükü Dağılımı:**
+
+**CPU Responsibilities (Compute-Intensive):**
+- Game state management ve logic processing
+- AI decision making ve behavior trees
+- Battle calculations ve damage computations
+- Resource management ve economic simulations
+- Pathfinding algorithms ve spatial queries
+- Network synchronization (future multiplayer)
+
+**GPU Responsibilities (Graphics-Intensive):**
+- Vulkan/DirectX rendering pipeline
+- UI rendering ve modern interface effects
+- Particle systems ve visual effects
+- Shader-based computations
+- Batch rendering optimizations
+- Post-processing effects
+
+#### **⚡ Performans Stratejisi:**
+- **Framerate Target**: 60 FPS minimum (GPU load)
+- **Simulation Target**: 30-60 TPS (CPU load)
+- **Memory Management**: Rust'ın zero-cost abstractions
+- **Cache Efficiency**: ECS'in data-oriented design
+- **GPU Memory**: Efficient texture atlasing ve buffer management
+
+#### **🔮 Gelecek Planlar:**
+- WebGPU desteği (cross-platform compatibility)
+- Compute shaders für parallel calculations
+- Multi-threading optimization (Bevy's parallel systems)
+- GPU-driven rendering techniques
+
+Bu yaklaşım, modern AAA oyunların kullandığı standart hibrit mimariyi takip eder ve DotWars'ın hem küçük hem büyük ölçekli savaşları sorunsuz işlemesini sağlar.
+
+---

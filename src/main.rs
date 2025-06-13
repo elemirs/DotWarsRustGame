@@ -9,7 +9,7 @@ fn main() {
     App::new()
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
-                title: "Nokta Savaşları - Büyük Strateji Savaş Simülatörü".into(),
+                title: "DotWars - Büyük Strateji Savaş Simülatörü".into(),
                 resolution: (1400.0, 900.0).into(),
                 ..default()
             }),

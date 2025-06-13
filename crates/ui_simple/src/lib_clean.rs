@@ -10,6 +10,8 @@ pub struct SimpleUIPlugin;
 pub struct UiFonts {
     pub regular: Handle<Font>,
     pub bold: Handle<Font>,
+    pub emoji: Handle<Font>,
+    pub emoji_color: Handle<Font>,
 }
 
 // UI Animation Timer
@@ -39,9 +41,8 @@ impl ModernColors {
     pub const ACCENT_GOLD: Color = Color::srgb(1.0, 0.8, 0.2);
     pub const TEXT_PRIMARY: Color = Color::srgb(0.95, 0.95, 0.97);
     pub const TEXT_SECONDARY: Color = Color::srgb(0.7, 0.75, 0.8);
-    pub const BUTTON_HOVER: Color = Color::srgb(0.4, 0.25, 0.15); // Kahverengi iç ışıma
+    pub const BUTTON_HOVER: Color = Color::srgb(0.15, 0.18, 0.25);
     pub const BUTTON_PRESSED: Color = Color::srgb(0.08, 0.1, 0.15);
-    pub const TRANSPARENT: Color = Color::srgba(0.0, 0.0, 0.0, 0.0);
 }
 
 impl Plugin for SimpleUIPlugin {
@@ -59,7 +60,7 @@ impl Plugin for SimpleUIPlugin {
             .add_systems(OnEnter(GameState::WorldMap), setup_world_map_ui)
             .add_systems(OnExit(GameState::WorldMap), cleanup_world_map_ui);
         
-        println!("Modern UI Plugin loaded - Animasyonlu arayüz sistemi yüklendi!");
+        println!("🎨 Modern UI Plugin loaded - Havalı animasyonlu arayüz sistemi yüklendi!");
     }
 }
 
@@ -68,10 +69,12 @@ fn load_fonts(mut commands: Commands, asset_server: Res<AssetServer>) {
     let ui_fonts = UiFonts {
         regular: asset_server.load("fonts/NotoSans-Regular.ttf"),
         bold: asset_server.load("fonts/NotoSans-Bold.ttf"),
+        emoji: asset_server.load("fonts/NotoEmoji-Regular.ttf"),
+        emoji_color: asset_server.load("fonts/NotoColorEmoji.ttf"),
     };
     
     commands.insert_resource(ui_fonts);
-    println!("Modern fontlar yükleniyor...");
+    println!("🎨 Modern fontlar yükleniyor...");
 }
 
 // Fontların yüklenip yüklenmediğini kontrol et ve UI'ı kur
@@ -88,9 +91,10 @@ fn check_fonts_and_setup_ui(
             
             let regular_loaded = asset_server.load_state(&fonts.regular) == bevy::asset::LoadState::Loaded;
             let bold_loaded = asset_server.load_state(&fonts.bold) == bevy::asset::LoadState::Loaded;
+            let emoji_loaded = asset_server.load_state(&fonts.emoji) == bevy::asset::LoadState::Loaded;
             
-            if regular_loaded && bold_loaded {
-                println!("Modern arayüz oluşturuluyor...");
+            if regular_loaded && bold_loaded && emoji_loaded {
+                println!("🚀 Modern arayüz oluşturuluyor...");
                 setup_main_menu_internal(&mut commands, &fonts);
             }
         }
@@ -198,11 +202,29 @@ fn setup_main_menu_internal(commands: &mut Commands, ui_fonts: &UiFonts) {
             parent.spawn((
                 TextBundle::from_sections([
                     TextSection::new(
-                        "DOTWARS",
+                        "⚔️ ",
+                        TextStyle {
+                            font: ui_fonts.emoji.clone(),
+                            font_size: 80.0,
+                            color: ModernColors::ACCENT_GOLD,
+                            ..default()
+                        },
+                    ),
+                    TextSection::new(
+                        "NOKTA SAVAŞLARI",
                         TextStyle {
                             font: ui_fonts.bold.clone(),
                             font_size: 72.0,
                             color: ModernColors::TEXT_PRIMARY,
+                            ..default()
+                        },
+                    ),
+                    TextSection::new(
+                        " 🏆",
+                        TextStyle {
+                            font: ui_fonts.emoji.clone(),
+                            font_size: 80.0,
+                            color: ModernColors::ACCENT_GOLD,
                             ..default()
                         },
                     ),
@@ -220,7 +242,7 @@ fn setup_main_menu_internal(commands: &mut Commands, ui_fonts: &UiFonts) {
             // Subtitle
             parent.spawn(TextBundle::from_sections([
                 TextSection::new(
-                    "Büyük Strateji Savaş Simülatörü",
+                    "🌍 Büyük Strateji Savaş Simülatörü 🎯",
                     TextStyle {
                         font: ui_fonts.regular.clone(),
                         font_size: 26.0,
@@ -238,6 +260,7 @@ fn setup_main_menu_internal(commands: &mut Commands, ui_fonts: &UiFonts) {
                 style: Style {
                     flex_direction: FlexDirection::Column,
                     align_items: AlignItems::Center,
+                    gap: Val::Px(20.0),
                     ..default()
                 },
                 ..default()
@@ -250,12 +273,11 @@ fn setup_main_menu_internal(commands: &mut Commands, ui_fonts: &UiFonts) {
                             height: Val::Px(70.0),
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
-                            border: UiRect::all(Val::Px(1.0)), // En ince border
-                            margin: UiRect::all(Val::Px(10.0)),
+                            border: UiRect::all(Val::Px(3.0)),
                             ..default()
                         },
                         background_color: ModernColors::CARD_BG.into(),
-                        border_color: ModernColors::TRANSPARENT.into(),
+                        border_color: ModernColors::ACCENT_BLUE.into(),
                         ..default()
                     },
                     StartGameButton,
@@ -267,7 +289,7 @@ fn setup_main_menu_internal(commands: &mut Commands, ui_fonts: &UiFonts) {
                 )).with_children(|button| {
                     button.spawn(TextBundle::from_sections([
                         TextSection::new(
-                            "SAVAŞA BAŞLA",
+                            "🚀 SAVAŞA BAŞLA 🚀",
                             TextStyle {
                                 font: ui_fonts.bold.clone(),
                                 font_size: 24.0,
@@ -286,19 +308,18 @@ fn setup_main_menu_internal(commands: &mut Commands, ui_fonts: &UiFonts) {
                             height: Val::Px(60.0),
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
-                            border: UiRect::all(Val::Px(1.0)), // En ince border
-                            margin: UiRect::all(Val::Px(10.0)),
+                            border: UiRect::all(Val::Px(2.0)),
                             ..default()
                         },
                         background_color: ModernColors::CARD_BG.into(),
-                        border_color: ModernColors::TRANSPARENT.into(),
+                        border_color: ModernColors::ACCENT_PURPLE.into(),
                         ..default()
                     },
                     OptionsButton,
                 )).with_children(|button| {
                     button.spawn(TextBundle::from_sections([
                         TextSection::new(
-                            "Ayarlar",
+                            "⚙️ Ayarlar",
                             TextStyle {
                                 font: ui_fonts.regular.clone(),
                                 font_size: 20.0,
@@ -317,19 +338,18 @@ fn setup_main_menu_internal(commands: &mut Commands, ui_fonts: &UiFonts) {
                             height: Val::Px(60.0),
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
-                            border: UiRect::all(Val::Px(1.0)), // En ince border
-                            margin: UiRect::all(Val::Px(10.0)),
+                            border: UiRect::all(Val::Px(2.0)),
                             ..default()
                         },
                         background_color: ModernColors::CARD_BG.into(),
-                        border_color: ModernColors::TRANSPARENT.into(),
+                        border_color: Color::srgb(0.8, 0.3, 0.3).into(),
                         ..default()
                     },
                     ExitButton,
                 )).with_children(|button| {
                     button.spawn(TextBundle::from_sections([
                         TextSection::new(
-                            "Çıkış",
+                            "🚪 Çıkış",
                             TextStyle {
                                 font: ui_fonts.regular.clone(),
                                 font_size: 20.0,
@@ -346,7 +366,7 @@ fn setup_main_menu_internal(commands: &mut Commands, ui_fonts: &UiFonts) {
 // Modern Ana menü buton işlemleri
 fn handle_main_menu_buttons(
     mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, &mut BorderColor, Option<&mut Transform>),
+        (&Interaction, &mut BackgroundColor, Option<&mut Transform>),
         (Changed<Interaction>, With<Button>),
     >,
     start_button_query: Query<&Interaction, (Changed<Interaction>, With<StartGameButton>)>,
@@ -355,32 +375,22 @@ fn handle_main_menu_buttons(
     mut exit: EventWriter<bevy::app::AppExit>,
 ) {
     // Modern buton hover efektleri
-    for (interaction, mut color, mut border_color, mut transform) in &mut interaction_query {
+    for (interaction, mut color, mut transform) in &mut interaction_query {
         match *interaction {
             Interaction::Pressed => {
                 *color = ModernColors::BUTTON_PRESSED.into();
-                *border_color = Color::srgba(1.0, 1.0, 1.0, 0.5).into(); // Basıldığında daha belirgin cam kenarlık
                 if let Some(ref mut t) = transform {
-                    t.scale = Vec3::splat(0.98); // Daha hafif küçülme
+                    t.scale = Vec3::splat(0.95);
                 }
             }
             Interaction::Hovered => {
-                // Cam gibi hover efekti - butonun kendi rengine göre
-                let base_color = ModernColors::CARD_BG.to_srgba();
-                *color = Color::srgb(
-                    (base_color.red + 0.05).min(1.0),
-                    (base_color.green + 0.05).min(1.0),
-                    (base_color.blue + 0.05).min(1.0),
-                ).into();
-                // Cam efekti için çok hafif beyazımsı kenarlık
-                *border_color = Color::srgba(1.0, 1.0, 1.0, 0.3).into(); // Cam gibi şeffaf beyaz kenarlık
+                *color = ModernColors::BUTTON_HOVER.into();
                 if let Some(ref mut t) = transform {
-                    t.scale = Vec3::splat(1.02); // Daha hafif büyüme
+                    t.scale = Vec3::splat(1.05);
                 }
             }
             Interaction::None => {
                 *color = ModernColors::CARD_BG.into();
-                *border_color = ModernColors::TRANSPARENT.into();
                 if let Some(ref mut t) = transform {
                     t.scale = Vec3::splat(1.0);
                 }
@@ -391,7 +401,7 @@ fn handle_main_menu_buttons(
     // Oyunu başlat butonu
     for interaction in &start_button_query {
         if *interaction == Interaction::Pressed {
-            println!("SAVAŞA HAZIRLANIN! Dünya haritası yükleniyor...");
+            println!("🚀 SAVAŞA HAZIRLANIN! Dünya haritası yükleniyor... 🗺️⚔️");
             next_state.set(GameState::WorldMap);
         }
     }
@@ -399,7 +409,7 @@ fn handle_main_menu_buttons(
     // Çıkış butonu
     for interaction in &exit_button_query {
         if *interaction == Interaction::Pressed {
-            println!("Savaşçı, başka bir gün tekrar bekleriz! Güle güle!");
+            println!("🚪 Savaşçı, başka bir gün tekrar bekleriz! Güle güle! 👋");
             exit.send(bevy::app::AppExit::Success);
         }
     }
@@ -443,7 +453,7 @@ fn setup_world_map_ui(mut commands: Commands, ui_fonts: Option<Res<UiFonts>>) {
                 // Header
                 parent.spawn(TextBundle::from_sections([
                     TextSection::new(
-                        "DÜNYA HARİTASI",
+                        "🗺️ DÜNYA HARİTASI 🌍",
                         TextStyle {
                             font: fonts.bold.clone(),
                             font_size: 32.0,
@@ -473,7 +483,7 @@ fn setup_world_map_ui(mut commands: Commands, ui_fonts: Option<Res<UiFonts>>) {
                 )).with_children(|button| {
                     button.spawn(TextBundle::from_sections([
                         TextSection::new(
-                            "Ana Menü",
+                            "🏠 Ana Menü",
                             TextStyle {
                                 font: fonts.regular.clone(),
                                 font_size: 18.0,
@@ -514,7 +524,7 @@ fn handle_world_map_ui(
     // Ana menüye dön butonu
     for interaction in &back_button_query {
         if *interaction == Interaction::Pressed {
-            println!("Ana menüye dönülüyor...");
+            println!("🏠 Ana menüye dönülüyor...");
             next_state.set(GameState::MainMenu);
         }
     }

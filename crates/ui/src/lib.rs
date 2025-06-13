@@ -38,31 +38,31 @@ fn main_menu_ui(
             ui.add_space(100.0);
             
             // Ana başlık - Türkçe karakterler destekleniyor
-            ui.heading("🏛️ Nokta Savaşları");
+            ui.heading("DotWars");
             ui.label("Büyük Strateji ve Savaş Simülatörü");
             
             ui.add_space(50.0);
             
             // Güzel butonlar
-            if ui.add_sized([200.0, 40.0], egui::Button::new("🗺️ Yeni Oyun")).clicked() {
+            if ui.add_sized([200.0, 40.0], egui::Button::new("Yeni Oyun")).clicked() {
                 next_state.set(GameState::WorldMap);
             }
             
             ui.add_space(10.0);
             
-            if ui.add_sized([200.0, 40.0], egui::Button::new("📂 Oyun Yükle")).clicked() {
+            if ui.add_sized([200.0, 40.0], egui::Button::new("Oyun Yükle")).clicked() {
                 // TODO: Load game
             }
             
             ui.add_space(10.0);
             
-            if ui.add_sized([200.0, 40.0], egui::Button::new("⚙️ Ayarlar")).clicked() {
+            if ui.add_sized([200.0, 40.0], egui::Button::new("Ayarlar")).clicked() {
                 next_state.set(GameState::Settings);
             }
             
             ui.add_space(10.0);
             
-            if ui.add_sized([200.0, 40.0], egui::Button::new("🚪 Çıkış")).clicked() {
+            if ui.add_sized([200.0, 40.0], egui::Button::new("Çıkış")).clicked() {
                 std::process::exit(0);
             }
         });
@@ -97,17 +97,17 @@ fn world_map_ui(
             ui.add_space(20.0);
             
             // Quick actions
-            ui.label("⚡ Hızlı İşlemler:");
-            if ui.button("🏗️ Yapı İnşa Et").clicked() {
+            ui.label("Hızlı İşlemler:");
+            if ui.button("Yapı İnşa Et").clicked() {
                 // TODO: Open building menu
             }
-            if ui.button("🎖️ Ordu Oluştur").clicked() {
+            if ui.button("Ordu Oluştur").clicked() {
                 // TODO: Open army creation
             }
-            if ui.button("🤝 Diplomasi").clicked() {
+            if ui.button("Diplomasi").clicked() {
                 next_state.set(GameState::Diplomacy);
             }
-            if ui.button("🔬 Teknoloji").clicked() {
+            if ui.button("Teknoloji").clicked() {
                 next_state.set(GameState::Technology);
             }
         });
@@ -115,7 +115,7 @@ fn world_map_ui(
     // Üst panel - Ana menü butonu
     egui::TopBottomPanel::top("top_panel").show(contexts.ctx_mut(), |ui| {
         ui.horizontal(|ui| {
-            if ui.button("🏠 Ana Menü").clicked() {
+            if ui.button("Ana Menü").clicked() {
                 next_state.set(GameState::MainMenu);
             }
             
@@ -125,7 +125,7 @@ fn world_map_ui(
             ui.label("📍 Seçili Bölge: Yok");
             
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                if ui.button("⏭️ Sonraki Tur").clicked() {
+                if ui.button("Sonraki Tur").clicked() {
                     // TODO: Process turn
                 }
             });
@@ -134,11 +134,11 @@ fn world_map_ui(
     
     // Ana harita alanı
     egui::CentralPanel::default().show(contexts.ctx_mut(), |ui| {
-        ui.heading("🗺️ Dünya Haritası");
+        ui.heading("Dünya Haritası");
         ui.label("Burada harita görünecek...");
         
         // Geçici test butonu
-        if ui.button("⚔️ Test Savaşı").clicked() {
+        if ui.button("Test Savaşı").clicked() {
             next_state.set(GameState::Battle);
         }
     });
@@ -151,20 +151,20 @@ fn battle_ui(
     // Üst panel - Savaş kontrolü
     egui::TopBottomPanel::top("battle_top").show(contexts.ctx_mut(), |ui| {
         ui.horizontal(|ui| {
-            if ui.button("🏠 Dünya Haritası").clicked() {
+            if ui.button("Dünya Haritası").clicked() {
                 next_state.set(GameState::WorldMap);
             }
             
             ui.separator();
             
-            ui.label("⚔️ Savaş: Test Muharebesi");
+            ui.label("Savaş: Test Muharebesi");
             ui.label("📊 Aşama: Dağıtım");
             
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                if ui.button("⏸️ Duraklat").clicked() {
+                if ui.button("Duraklat").clicked() {
                     // TODO: Pause battle
                 }
-                if ui.button("▶️ Başlat").clicked() {
+                if ui.button("Başlat").clicked() {
                     // TODO: Start battle
                 }
             });
@@ -176,7 +176,7 @@ fn battle_ui(
         .resizable(true)
         .default_width(280.0)
         .show(contexts.ctx_mut(), |ui| {
-            ui.heading("🎖️ Birimler");
+            ui.heading("Birimler");
             
             ui.separator();
             
